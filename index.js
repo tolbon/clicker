@@ -53,7 +53,7 @@ function startSimulation()
 
 function handleVisibilityChange() {
     console.log(document.hidden)
-    if (document.hidden) {
+    if (document.hidden === true) {
       pauseSimulation();
     } else  {
       startSimulation();
