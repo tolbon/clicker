@@ -105,15 +105,33 @@ function recomputeAutoCollect() {
 }
 
 function collectGoldAction() {
-    
+    let collectGold = new GameEvent();
+    collectGold.whenThisEventFire = Date.now();
+    let gameResource = new GameResource();
+    gameResource.gold = 1;
+    collectGold.gameResourceCollecte = gameResource;
+
+    gl.listEvent = insertGameEvent(gl.listEvent, collectGold);
 }
 
 function collectRockAction() {
-    
+    let collectGold = new GameEvent();
+    collectGold.whenThisEventFire = Date.now();
+    let gameResource = new GameResource();
+    gameResource.rock = 1;
+    collectGold.gameResourceCollecte = gameResource;
+
+    gl.listEvent = insertGameEvent(gl.listEvent, collectGold);
 }
 
 function collectEatAction() {
-    
+    let collectGold = new GameEvent();
+    collectGold.whenThisEventFire = Date.now();
+    let gameResource = new GameResource();
+    gameResource.eat = 1;
+    collectGold.gameResourceCollecte = gameResource;
+
+    gl.listEvent = insertGameEvent(gl.listEvent, collectGold);
 }
 
 function insertGameEvent(listEvent: Array<GameEvent>, gameEvent: GameEvent) {
@@ -128,84 +146,34 @@ function autoCollectAction()
 {
     const newTimestamp = Date.now();
 
-    startSimulation(newTimestamp);
-}
-
-function startSimulation(referenceDate: number) {
-    
-    let listEvent: Array<GameEvent> = [];
-
-    const eventEndedOrStarting = gl.listEvent.filter((gameEvent: GameEvent) => {
-        return gameEvent.whenThisEventStart < referenceDate;
-    });
-
-    eventEndedOrStarting.forEach((gameEvent: GameEvent) => {
-
-        if (gameEvent.whenThisEventFire < referenceDate) {
-            const time = gameEvent.whenThisEventFire - gameEvent.whenThisEventStart;
-            
-            const grTmp = gl.autoCollectResourcePlayer.getCollectedDuringTime(time);
-
-            gl.resourcePlayer.add(grTmp);
-        } else if (gameEvent.whenThisEventStart < referenceDate && gameEvent.whenThisEventFire > referenceDate) {
-            const time = referenceDate - gameEvent.whenThisEventStart;
-            
-            const grTmp = gl.autoCollectResourcePlayer.getCollectedDuringTime(time);
-
-            gl.resourcePlayer.add(grTmp);
-            gameEvent.whenThisEventStart = referenceDate;
-
-            listEvent.push(gameEvent);
-        } else {
-            listEvent.push(gameEvent);
-        }
-    });
-
-
-    return gl.listEvent.filter((gameEvent: GameEvent) => {
-        return gameEvent.whenThisEventStart >= referenceDate;
-    });
-
-    //gl.collectIntervalId = setInterval(autoCollectAction, 1000);
+    startSimulation2(newTimestamp);
 }
 
 
-function startSimulation2(referenceDate: number) {
-    
-    let listEvent: Array<GameEvent> = [];
+function startSimulation2(endDate: number) {
 
-    const eventEndedOrStarting = gl.listEvent.filter((gameEvent: GameEvent) => {
-        return gameEvent.whenThisEventStart < referenceDate;
+    const listEvent = gl.listEvent.filter((ge: GameEvent) => {
+        return ge.whenThisEventFire <= endDate;
     });
 
-    eventEndedOrStarting.forEach((gameEvent: GameEvent) => {
+    let lastTimestamp = 0;
+    listEvent.forEach((ge: GameEvent) => {
+        const time = ge.whenThisEventFire - lastTimestamp;
+        const grTmp = gl.autoCollectResourcePlayer.getCollectedDuringTime(time);
 
-        if (gameEvent.whenThisEventFire < referenceDate) {
-            const time = gameEvent.whenThisEventFire - gameEvent.whenThisEventStart;
-            
-            const grTmp = gl.autoCollectResourcePlayer.getCollectedDuringTime(time);
+        gl.resourcePlayer.add(grTmp);
 
-            gl.resourcePlayer.add(grTmp);
-        } else if (gameEvent.whenThisEventStart < referenceDate && gameEvent.whenThisEventFire > referenceDate) {
-            const time = referenceDate - gameEvent.whenThisEventStart;
-            
-            const grTmp = gl.autoCollectResourcePlayer.getCollectedDuringTime(time);
-
-            gl.resourcePlayer.add(grTmp);
-            gameEvent.whenThisEventStart = referenceDate;
-
-            listEvent.push(gameEvent);
-        } else {
-            listEvent.push(gameEvent);
+        lastTimestamp = ge.whenThisEventFire;
+        //ge.changeBatimentState;
+        if (ge.changeBatimentState.length !== 0) {
+            //recomputeBatimentState;
         }
     });
 
-
-    return gl.listEvent.filter((gameEvent: GameEvent) => {
-        return gameEvent.whenThisEventStart >= referenceDate;
+    gl.listEvent = gl.listEvent.filter((ge: GameEvent) => {
+        return ge.whenThisEventFire > endDate;
     });
 
-    //gl.collectIntervalId = setInterval(autoCollectAction, 1000);
 }
 
 function pauseSimulation() {
@@ -221,6 +189,10 @@ function handleVisibilityChange() {
     if (document.hidden === true) {
         pauseSimulation();
     } else {
-        startSimulation(Date.now());
+        let resumeEvent = new GameEvent();
+        resumeEvent.whenThisEventFire = Date.now();
+
+        gl.listEvent.push(resumeEvent);
+        startSimulation2(Date.now());
     }
 }
