@@ -18,34 +18,31 @@ function miningAction(el, ev) {
 let intervalId = setInterval(autoCollectAction, 1000);
 let timeStop = Date.now();
 
-function autoCollectAction()
-{
+function autoCollectAction() {
     rockStock += autoCollectRock;
     rockStockELHTML.innerText = rockStock;
     {
-      const now = Date.now();
-      const timeElapsed = now - timeStop;
-      
-      rockStock += Math.floor((autoCollectRock * timeElapsed) / 1000);
-      rockStockELHTML.innerText = rockStock;
+        const now = Date.now();
+        const timeElapsed = now - timeStop;
+
+        rockStock += Math.floor((autoCollectRock * timeElapsed) / 1000);
+        rockStockELHTML.innerText = rockStock;
     }
     timeStop = Date.now();
 }
 
-function pauseSimulation()
-{
+function pauseSimulation() {
     clearInterval(intervalId);
     timeStop = Date.now();
     console.log(timeStop);
 }
 
-function startSimulation()
-{
+function startSimulation() {
     const newTimestamp = Date.now();
     const timeElapsed = newTimestamp - timeStop;
-    
+
     console.log(timeElapsed);
-    
+
     rockStock += Math.floor((autoCollectRock * timeElapsed) / 1000);
     rockStockELHTML.innerText = rockStock;
     intervalId = setInterval(autoCollectAction, 1000);
@@ -54,10 +51,10 @@ function startSimulation()
 function handleVisibilityChange() {
     console.log(document.hidden)
     if (document.hidden === true) {
-      pauseSimulation();
-    } else  {
-      startSimulation();
+        pauseSimulation();
+    } else {
+        startSimulation();
     }
-  }
-  
-  document.addEventListener("visibilitychange", handleVisibilityChange, false);
+}
+
+document.addEventListener("visibilitychange", handleVisibilityChange, false);
