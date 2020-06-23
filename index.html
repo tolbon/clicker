@@ -2,7 +2,7 @@
 <html>
 <head>
     <style></style>
-    <title>Clicker</title>
+    <title>Farm Clicker</title>
 
     <link rel="manifest" href="./manifest.webmanifest"/>
 
@@ -14,8 +14,9 @@
     <meta name="application-name" content="Clicker"/>
     <meta name="apple-mobile-web-app-title" content="Clicker"/>
     <meta name="msapplication-starturl" content="index.html"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    
     <link rel="apple-touch-icon" sizes="120x120" href="./static/images/apple-touch-icon.png"/>
     <link rel="icon" type="image/png" sizes="32x32" href="./static/images/favicon-32x32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="./static/images/favicon-16x16.png"/>
@@ -25,18 +26,39 @@
 
     <meta name="description" content="Clicker Like"/>
     <meta name="keywords" content="Clicker Like"/>
+    <link href="./static/css/main.css" rel="stylesheet">
 
 </head>
 <body>
 <h1>Farming</h1>
 <div>
-    <span id="rockStock"></span>
-    <button id="rockButton">Rock</button>
-    <span id="goldStock"></span>
-    <button id="goldButton">Gold</button>
-    <span id="meetStock"></span>
-    <button id="meetButton">Meet</button>
-    <button id="testButton">Testeur</button>
+    <ul>
+        <li><span id="eatStock"></span> Eat</li>
+        <li><span id="goldStock"></span> Gold</li>
+        <li><span id="rockStock"></span> Rock</li>
+    </ul>
+</div>
+<h2>Manual</h2>
+<div>
+    <button id="rockButton">Collect Rock</button>
+    <button id="goldButton">Collect Gold</button>
+    <button id="meetButton">Collect Meet</button>
+</div>
+<h2>Batiment</h2>
+<div>
+    <div>Automatic Farm</div>
+    <div>+100</div>
+    <button id="upgradeEatAutoCollect">Unlock</button>
+</div>
+<div>
+    <div>Automatic Mining Rock</div>
+    <div>+100</div>
+    <button id="upgradeRockAutoCollect">Unlock</button>
+</div>
+<div>
+    <div>Automatic Mining Gold</div>
+    <div>+100</div>
+    <button id="upgradeGoldAutoCollect">Unlock</button>    
 </div>
 <script src="./static/js/main.js"></script>
 </body>

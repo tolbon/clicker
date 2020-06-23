@@ -1,0 +1,25 @@
+@media (min-width: 0px) { 
+    button {
+        font-size: xx-large;
+    }
+}
+
+@media (min-width: 576px) { 
+    button {
+        font-size: xx-large;
+    }
+}
+
+@media (min-width: 768px) { 
+    button {
+        font-size: x-large;
+
+    }
+}
+
+@media (min-width: 992px) { 
+    button {
+        font-size: medium;
+
+    }
+}
