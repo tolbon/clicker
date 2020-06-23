@@ -2,7 +2,7 @@ import { Batiment } from "./Batiment";
 
 export class RockManualCollect extends Batiment {
 
-    private static readonly EAT_BATIMENT_LEVEL = [
+    private static readonly ROCK_BATIMENT_LEVEL = [
         0,
         1,
         2,

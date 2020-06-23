@@ -156,9 +156,10 @@ System.register("gui-event", ["GameResource", "GameEvent", "GameLogic"], functio
         let resumeEvent = new GameEvent_1.GameEvent();
         resumeEvent.whenThisEventFire = newTimestamp;
         gl.listEvent.push(resumeEvent);
-        startSimulation2(newTimestamp);
+        startSimulation(newTimestamp);
+        renderTemplate();
     }
-    function startSimulation2(endDate) {
+    function startSimulation(endDate) {
         const listEvent = gl.listEvent.filter((ge) => {
             return ge.whenThisEventFire <= endDate;
         });
@@ -211,8 +212,14 @@ System.register("gui-event", ["GameResource", "GameEvent", "GameLogic"], functio
             let resumeEvent = new GameEvent_1.GameEvent();
             resumeEvent.whenThisEventFire = Date.now();
             gl.listEvent.push(resumeEvent);
-            startSimulation2(Date.now());
+            startSimulation(Date.now());
+            renderTemplate();
         }
+    }
+    function renderTemplate() {
+        rockStockElHTML.innerText = gl.resourcePlayer.rock.toString(10);
+        goldStockElHTML.innerText = gl.resourcePlayer.gold.toString(10);
+        eatStockElHTML.innerText = gl.resourcePlayer.eat.toString(10);
     }
     return {
         setters: [
@@ -240,6 +247,7 @@ System.register("gui-event", ["GameResource", "GameEvent", "GameLogic"], functio
             collectRockElHTML = document.getElementById("rockButton");
             collectGoldElHTML = document.getElementById("goldButton");
             collectEatElHTML = document.getElementById("meetButton");
+            document.addEventListener("visibilitychange", handleVisibilityChange);
             if (collectRockElHTML === null ||
                 collectGoldElHTML === null ||
                 collectEatElHTML === null) {
@@ -394,7 +402,7 @@ System.register("Batiment/GoldManualCollect", ["Batiment/Batiment"], function (e
                 }
             };
             exports_9("GoldManualCollect", GoldManualCollect);
-            GoldManualCollect.EAT_BATIMENT_LEVEL = [
+            GoldManualCollect.GOLD_BATIMENT_LEVEL = [
                 0,
                 1,
                 2,
@@ -472,7 +480,7 @@ System.register("Batiment/RockManualCollect", ["Batiment/Batiment"], function (e
                 }
             };
             exports_11("RockManualCollect", RockManualCollect);
-            RockManualCollect.EAT_BATIMENT_LEVEL = [
+            RockManualCollect.ROCK_BATIMENT_LEVEL = [
                 0,
                 1,
                 2,

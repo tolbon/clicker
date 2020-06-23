@@ -22,6 +22,7 @@ const collectRockElHTML = document.getElementById("rockButton");
 const collectGoldElHTML = document.getElementById("goldButton");
 const collectEatElHTML = document.getElementById("meetButton");
 
+document.addEventListener("visibilitychange", handleVisibilityChange);
 
 if (collectRockElHTML === null ||
     collectGoldElHTML === null ||
@@ -92,11 +93,12 @@ function autoCollectAction() {
 
     gl.listEvent.push(resumeEvent);
 
-    startSimulation2(newTimestamp);
+    startSimulation(newTimestamp);
+    renderTemplate();
 }
 
 let lastTimestamp = Date.now();
-function startSimulation2(endDate: number) {
+function startSimulation(endDate: number) {
 
     const listEvent = gl.listEvent.filter((ge: GameEvent) => {
         return ge.whenThisEventFire <= endDate;
@@ -161,6 +163,13 @@ function handleVisibilityChange() {
         resumeEvent.whenThisEventFire = Date.now();
 
         gl.listEvent.push(resumeEvent);
-        startSimulation2(Date.now());
+        startSimulation(Date.now());
+        renderTemplate();
     }
+}
+
+function renderTemplate() {
+    rockStockElHTML!.innerText = gl.resourcePlayer.rock.toString(10);
+    goldStockElHTML!.innerText = gl.resourcePlayer.gold.toString(10);
+    eatStockElHTML!.innerText = gl.resourcePlayer.eat.toString(10);
 }

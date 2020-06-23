@@ -2,7 +2,7 @@ import { Batiment } from "./Batiment";
 
 export class GoldManualCollect extends Batiment {
 
-    private static readonly EAT_BATIMENT_LEVEL = [
+    private static readonly GOLD_BATIMENT_LEVEL = [
         0,
         1,
         2,
